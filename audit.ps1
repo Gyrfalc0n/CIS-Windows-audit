@@ -2,7 +2,6 @@ function Write-Double($text) {
     Write-Host $text
     ResultToString($text)
 }
-
 function ShowGeneralInformation {
     # Hardware Model
     $hardwareModel = Get-WmiObject Win32_ComputerSystem | Select-Object Model
@@ -198,9 +197,6 @@ function AutoDiscoverMinimizationServices {
 
     Write-Double "`n========================================="
 }
-
-
-
 function AuditCIS {  # Audit the system according to CIS
     $cisScriptPath = Join-Path $PSScriptRoot "cis.ps1"
     if (Test-Path $cisScriptPath) {
@@ -209,12 +205,9 @@ function AuditCIS {  # Audit the system according to CIS
         Write-Double "Error: cis.ps1 not found at $cisScriptPath."
     }
 }
-
 function ResultToString($result) {  # Append result to global variable
     $global:results += $result
 }
-
-
 
 function ShowMenu { # Show menu
     Clear-Host
@@ -268,7 +261,6 @@ while ($true) {
             break
         }
         'O' {
-            Write-Host "Opening results in Notepad..."
             $global:results | Out-File -FilePath 'results.txt'
             notepad 'results.txt'
             break
