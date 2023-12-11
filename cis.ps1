@@ -60,6 +60,7 @@ $ReportStyle = @"
 </style>
 "@
 
+
 # Retrieve computer name
 $SystemName = "<h1>System Name: $env:computername</h1>"
 
@@ -80,6 +81,23 @@ Function Reverse-SID ($sidString) {
     # Processing and reversing SID
     # [Implementation of the function]
 }
+
+function BuildHTMLContent($ComplianceIndex,$ComplianceName,$CurrentValue, $ComplianceOrNot) {
+	
+    $ContentHTML	= "<tr ><td>$ComplianceIndex</td>"
+    $ContentHTML	= "$ContentHTML <td>$ComplianceName</td>"
+    $ContentHTML	= "$ContentHTML <td>$CurrentValue</td>"
+    if ($ComplianceOrNot) {    
+    $ContentHTML	= "$ContentHTML <td class='true'>Compliance</td>"
+    Write-Host "       [+] "$ComplianceName -ForegroundColor Green 
+    }
+      else {
+    $ContentHTML	= "$ContentHTML <td class='false'>Non Compliance</td>"
+    Write-Host "       [-] "$ComplianceName -ForegroundColor Red
+      }
+    $ContentHTML	= "$ContentHTML </tr>"
+    return $ContentHTML
+    }
 
 function GenerateHTMLContent($Index, $Name, $Value, $Compliant) {
     # Generating HTML content for each item
