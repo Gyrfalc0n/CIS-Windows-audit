@@ -154,27 +154,6 @@ Write-Host "       [-] "$ComplianceName -ForegroundColor Red
 $ContentHTML	= "$ContentHTML </tr>"
 return $ContentHTML
 }
-<#
-# convert ComplianceOrNotHTML 
-function ComplianceOrNotToHTML($flag) {
-  if ($flag) {    
-    return '<td class="true">Compliance</td>'
-  }
-  else {
-    return '<td class="false">Non Compliance</td>'
-  }
-}
-function ComplianceWriteHost($ComplianceName,$flag) {
-  if ($flag) {    
-    Write-Host "       [+] "$ComplianceName -ForegroundColor Green
-  }
-  else {
-    Write-Host "       [-] "$ComplianceName -ForegroundColor Red
-  }
-}
-#>
-
-
 # set registry value for compliance
 function setCompliance($ComplianceOrNot, $Path, $Obj, $Value){
 	if($ComplianceOrNot -eq $false){
@@ -336,10 +315,6 @@ $ServicesInfo = Get-CimInstance -ClassName Win32_Service |ConvertTo-Html -Proper
 $ServicesInfo = $ServicesInfo -replace '<td>Running</td>','<td class="RunningStatus">Running</td>'
 $ServicesInfo = $ServicesInfo -replace '<td>Stopped</td>','<td class="StopStatus">Stopped</td>'
 
-#$LocalAccountInfo =  Get-WmiObject -Class Win32_UserAccount -Filter  "LocalAccount='True'" |
-#        Select-Object PSComputerName, Status, Caption, PasswordExpires, AccountType, Description, Disabled, Domain, FullName, InstallDate, LocalAccount, Lockout, Name, PasswordChangeable, PasswordRequired, SID, SIDType | 
-#		 ConvertTo-Html   -PreContent "<h2>LOCAL ACCOUNTS INFORMATION</h2>"
-
 $LocalShareInfo = Get-CimInstance -ClassName Win32_Share | ConvertTo-Html  -Property Name,Caption,Path -Fragment -PreContent "<h2>LOCAL SHARES</h2>" 
 $Printers = Get-CimInstance -ClassName Win32_Printer | ConvertTo-Html -Property Name,Location -Fragment -PreContent "<h2>PRINTERS</h2>" 
 
@@ -351,18 +326,7 @@ $LocalAccountInfo > "LocalAccounts-$OSName.html"
 $LocalAccountInfo = $LocalAccountInfo -replace '<td>True</td>','<td class="true">True</td>'
 $LocalAccountInfo = $LocalAccountInfo -replace '<td>False</td>','<td class="false">False</td>'
 
-
-
-
 $ComplianceHTMLHead =  '<h2>WINDOWS COMPLIANCE</h2>'
-
-#Write-Host
-#Write-Host Local Password Policy -ForegroundColor DarkGreen
-#Write-Host ===================== -ForegroundColor DarkGreen
-#    net accounts | Out-Host
-#Write-Host
-
-
 
 Write-Host "CHECKING CIS BENCHMARKS" -ForegroundColor Green 
 Start-Sleep -s 2
@@ -508,24 +472,6 @@ $traitement = Reverse-SID $chaineSID
 $CurrentValue	= $traitement 
 $ComplianceOrNot	= ($traitement.Length -eq 0)
 $ComplianceHTML += ContentHTML $ComplianceIndex $ComplianceName $CurrentValue $ComplianceOrNot
-
-
-<#
-###Ensure 'Add workstations to domain' is set to 'Administrators'
-$ComplianceIndex += 1 
-$traitement = $null
-
-$ComplianceName		= "(L1)Ensure 'Add workstations to domain' is set to 'Administrators', Must be Administrators "
-
-$chaineSID = Get-Content $seceditFile |Select-String "SeMachineAccountPrivilege"
-$chaineSID = $chaineSID.line
-$traitement = Reverse-SID $chaineSID
-$CurrentValue	= $traitement 
-$ComplianceOrNot	= if ($traitement  -match "Administrator") 
-
-$ComplianceHTML += ContentHTML $ComplianceIndex $ComplianceName $CurrentValue $ComplianceOrNot
-
-#>
 
 #Check Adjust memory quotas for a process
 $ComplianceIndex += 1 
@@ -746,9 +692,6 @@ $traitement = Reverse-SID $chaineSID
 $CurrentValue	= $traitement 
 $ComplianceOrNot	= (($traitement  -match "LOCAL SERVICE")  -and ($traitement  -match "NETWORK SERVICE"))  
 $ComplianceHTML += ContentHTML $ComplianceIndex $ComplianceName $CurrentValue $ComplianceOrNot
-
-
-
 
 #Check Impersonate a client after authentication
 $ComplianceIndex += 1 
@@ -1530,8 +1473,6 @@ $ComplianceOrNot	= (([int]$traitement  -eq 1) -or ([int]$traitement  -eq 2))
 $ComplianceHTML += ContentHTML $ComplianceIndex $ComplianceName $CurrentValue $ComplianceOrNot
 
 
-
-
 #Check Network access: Allow anonymous SID/Name translation
 $ComplianceIndex += 1 
 $traitement = $null
@@ -2121,13 +2062,6 @@ $CurrentValue	= $data[[int]$traitement]
 $ComplianceOrNot	= (($traitement  -match "1")) 
 $ComplianceHTML += ContentHTML $ComplianceIndex $ComplianceName $CurrentValue $ComplianceOrNot
 
-
-
-
-
-
-
-
 #Check User Account Control: Virtualize file and registry write failures to per-user locations
 $ComplianceIndex += 1 
 $traitement = $null
@@ -2145,12 +2079,6 @@ $data = @("Disabled","Enabled","Not Defined")
 $CurrentValue	= $data[[int]$traitement]
 $ComplianceOrNot	= (($traitement  -match "1")) 
 $ComplianceHTML += ContentHTML $ComplianceIndex $ComplianceName $CurrentValue $ComplianceOrNot
-
-
-
-
-
-
 
 #Check Windows Firewall
 Write-Host "`n [+] Begin Windows Firewall Audit`n" -ForegroundColor DarkGreen
