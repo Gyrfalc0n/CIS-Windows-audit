@@ -1,6 +1,3 @@
-#Set-ExecutionPolicy RemoteSigned -force
-
-#CSS codes
 $header = @"
 <title>Audit Report: $env:computername</title>
 <style>
@@ -74,6 +71,7 @@ $header = @"
 </style>
 
 
+
 "@
 
 
@@ -82,8 +80,6 @@ $header = @"
 $ComputerName = "<h1>Computer name: $env:computername</h1>"
 
 Write-Host $Author -ForegroundColor White -BackgroundColor Blue
-Write-Host
-Write-Host "Abhijit Chatterjee & Sanjoy Kanrar - CDAC Team  - sa-kol@cdac.in " -ForegroundColor Yellow
 
 Write-Host "[?] Checking for administrative privileges .." -ForegroundColor DarkBlue
 Start-Sleep -s 1
