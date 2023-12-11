@@ -200,9 +200,9 @@ function AutoDiscoverMinimizationServices {
 function AuditCIS {  # Audit the system according to CIS
     $cisScriptPath = Join-Path $PSScriptRoot "cis.ps1"
     if (Test-Path $cisScriptPath) {
-        & $cisScriptPath
+        Start-Process PowerShell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$cisScriptPath`"" -NoNewWindow
     } else {
-        Write-Double "Error: cis.ps1 not found at $cisScriptPath."
+        Write-Host "Error: cis.ps1 not found at $cisScriptPath."
     }
 }
 function ResultToString($result) {  # Append result to global variable
