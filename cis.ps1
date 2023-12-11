@@ -203,7 +203,7 @@ $auditFile = "audit" + $Date + ".txt"
 
 Write-Host "       [+] Create Audit directory " -ForegroundColor DarkGreen
 
-$auditDirectory = "CDAC_Audit_CONF_" + $Date
+$auditDirectory = "CIS_Projet_CONF_" + $Date
 #Delete the folder if exists
 Remove-Item $auditDirectory -Recurse -ErrorAction Ignore
 New-Item -ItemType Directory -Name $auditDirectory | Out-Null
@@ -2639,7 +2639,7 @@ for (i = 0; i < acc.length; i++) {
 $Report = ConvertTo-HTML -Body "$ToolDetails $ComputerName $OSinfo $ProcessInfo $BiosInfo $DiscInfo $NetworkAdapterInfo $LocalShareInfo  $Printers $ServicesInfo $LocalAccountInfo $ComplianceHTML $footer" -Head $header -Title "SECURITY AUDIT SERVICES, CDAC" -PostContent "<p id='CreationDate'>Creation Date: $(Get-Date)</p>"
 
 #The command below will generate the report to an HTML file
-$htmlReportFileName = "./CDAC_AUDIT" + "-" + "$OSName" + ".html"
+$htmlReportFileName = "./CIS_Projet" + "-" + "$OSName" + ".html"
 $Report | Out-File $htmlReportFileName
 
 Set-Location "\"
