@@ -57,7 +57,7 @@ function ShowMenu {
 ```
 
 ## Results
-The audit results are stored in separate files within the results directory. The naming convention for result files is audit_results_<timestamp>.txt.
+The audit results are stored in separate files within the results directory.
 
 ## Contributions
 Contributions are welcome! If you find issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
