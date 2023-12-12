@@ -221,11 +221,6 @@ function ShowMenu { # Show menu
     Write-Host "Q. Quit"
 }
 
-function ShowSubMenu1 { # Show submenu 1
-    Write-Host "`nMenu:"
-    Write-Host "1. Export (HTML)"
-    Write-Host "2. Back"
-}
 
 # MAIN
 # instantiate global variable
