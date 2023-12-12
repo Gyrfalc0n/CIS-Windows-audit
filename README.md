@@ -6,9 +6,9 @@ This repository contains a PowerShell script (`audit.ps1`) designed to perform a
 
 1. Clone the repository to your local machine:
 
-   ```bash
-   git clone https://github.com/Gyrfalc0n/CIS-Windows-audit.git
-    ```
+```bash
+git clone https://github.com/Gyrfalc0n/CIS-Windows-audit.git
+ ```
 
 2. Navigate to the repository:
 
